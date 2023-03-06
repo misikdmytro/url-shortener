@@ -32,7 +32,8 @@ data "aws_iam_policy_document" "lambda_policy" {
 
   statement {
     actions = [
-      "dynamodb:PutItem"
+      "dynamodb:PutItem",
+      "dynamodb:DeleteItem",
     ]
     effect    = "Allow"
     resources = [aws_dynamodb_table.table.arn]
@@ -117,6 +118,7 @@ resource "aws_lambda_function" "lambda" {
 
   environment {
     variables = {
+      BASE_URL = aws_apigatewayv2_stage.stage.invoke_url
       TABLE_NAME = aws_dynamodb_table.table.name
       STAGE_NAME = local.stage_name
     }
@@ -164,10 +166,10 @@ resource "aws_lambda_permission" "lambda_permissions" {
 resource "aws_dynamodb_table" "table" {
   name         = "url-shortener-table"
   billing_mode = "PAY_PER_REQUEST"
-  hash_key     = "UrlKey"
+  hash_key     = "Key"
 
   attribute {
-    name = "UrlKey"
+    name = "Key"
     type = "S"
   }
 

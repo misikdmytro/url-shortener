@@ -78,7 +78,7 @@ func TestShortenURL(t *testing.T) {
 	for _, tc := range input {
 		t.Run(tc.name, func(t *testing.T) {
 			repository := &repositoryMock{}
-			repository.On("SaveShortURL", mock.Anything, mock.MatchedBy(func(s *model.ShortURL) bool { return s.Key == tc.key })).Return(tc.dbErr)
+			repository.On("SaveShortURL", mock.Anything, mock.MatchedBy(func(s model.ShortURL) bool { return s.Key == tc.key })).Return(tc.dbErr)
 
 			randomGenerator := &randomGeneratorMock{}
 			randomGeneratorFactory := &randomGeneratorFactory{

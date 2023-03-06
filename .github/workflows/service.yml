@@ -1,4 +1,4 @@
-name: URL Shortener CI
+name: URL Shortener CI/CD
 
 on:
   push:

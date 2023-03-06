@@ -118,7 +118,7 @@ resource "aws_lambda_function" "lambda" {
 
   environment {
     variables = {
-      BASE_URL = aws_apigatewayv2_stage.stage.invoke_url
+      BASE_URL   = aws_apigatewayv2_stage.stage.invoke_url
       TABLE_NAME = aws_dynamodb_table.table.name
       STAGE_NAME = local.stage_name
     }

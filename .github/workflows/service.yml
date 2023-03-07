@@ -68,3 +68,7 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false
         working-directory: ./terraform
+      - uses: geekyeggo/delete-artifact@v2
+        with:
+            name: package
+        if: always()

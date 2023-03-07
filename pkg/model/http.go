@@ -10,5 +10,6 @@ type ShortenURLRequest struct {
 }
 
 type ShortenURLResponse struct {
+	URL string `json:"url"`
 	Key string `json:"key"`
 }

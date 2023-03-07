@@ -43,7 +43,7 @@ func (h *urlHandler) ShortenURL(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, model.ShortenURLResponse{Key: fmt.Sprintf("%s/%s", h.base, key)})
+	ctx.JSON(http.StatusCreated, model.ShortenURLResponse{Key: key, URL: fmt.Sprintf("%s/%s", h.base, key)})
 }
 
 func (h *urlHandler) ToURL(ctx *gin.Context) {

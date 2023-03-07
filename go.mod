@@ -11,6 +11,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.18.6
 	github.com/gin-gonic/gin v1.9.0
 	github.com/go-playground/assert/v2 v2.2.0
+	github.com/google/uuid v1.3.0
 	github.com/sethvargo/go-retry v0.2.4
 	github.com/stretchr/testify v1.8.2
 )

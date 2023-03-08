@@ -1,41 +1,43 @@
-import { check } from 'k6';
-import http from 'k6/http';
+import { check } from "k6";
+import http from "k6/http";
 
 export const options = {
-    scenarios: {
-      constant_request_rate: {
-        executor: "constant-arrival-rate",
-        rate: 300,
-        timeUnit: "1s",
-        duration: "2m",
-        preAllocatedVUs: 10,
-        maxVUs: 50,
-      },
+  scenarios: {
+    constant_request_rate: {
+      executor: "constant-arrival-rate",
+      rate: 300,
+      timeUnit: "1s",
+      duration: "2m",
+      preAllocatedVUs: 10,
+      maxVUs: 100,
     },
-    thresholds: {
-      http_req_duration: ["p(95)<300"],
-    },
-  };
+  },
+  thresholds: {
+    http_req_duration: ["p(99.9)<300"],
+  },
+  summaryTrendStats: ["avg", "p(90)", "p(95)", "p(99)", "p(99.9)"],
+};
 
-const symbols = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+const symbols =
+  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 function randomString(length) {
-    let result = '_';
-    for (let i = 0; i < length; i++) {
-        result += symbols.charAt(Math.floor(Math.random() * symbols.length));
-    }
-    return result;
+  let result = "_";
+  for (let i = 0; i < length; i++) {
+    result += symbols.charAt(Math.floor(Math.random() * symbols.length));
+  }
+  return result;
 }
 
 export default function () {
-    const res = http.get(`${__ENV.BASE_URL}/${randomString(8)}`, null, {
-        headers: { 'Content-Type': 'application/json' },
-    });
+  const res = http.get(`${__ENV.BASE_URL}/${randomString(8)}`, null, {
+    headers: { "Content-Type": "application/json" },
+  });
 
-    check(res, {
-        'status is 404': (r) => r.status === 404,
-        'response body': (r) => {
-            const body = JSON.parse(r.body);
-            return body && body.error === 'URL not found';
-        },
-    });
+  check(res, {
+    "status is 404": (r) => r.status === 404,
+    "response body": (r) => {
+      const body = JSON.parse(r.body);
+      return body && body.error === "URL not found";
+    },
+  });
 }

@@ -1,34 +1,44 @@
-import http from 'k6/http';
-import { check } from 'k6';
+import { check } from "k6";
+import http from "k6/http";
 
 export const options = {
-    stages: [
-        { target: 60, duration: '1m' },
-        { target: 60, duration: '3m' },
-        { target: 0, duration: '30s' },
-    ],
-    thresholds: {
-        http_req_failed: ['rate<0.01'],
-        http_req_duration: ['p(95)<500'],
+  scenarios: {
+    constant_request_rate: {
+      executor: "constant-arrival-rate",
+      rate: 300,
+      timeUnit: "1s",
+      duration: "2m",
+      preAllocatedVUs: 10,
+      maxVUs: 50,
     },
+  },
+  thresholds: {
+    http_req_failed: ["rate<0.01"],
+    http_req_duration: ["p(95)<300"],
+  },
 };
 
-const baseuURL = 'https://qkbobxlzzi.execute-api.eu-central-1.amazonaws.com/develop';
 export default function () {
-    const body = {
-        url: 'https://www.google.com',
-        duration: 60,
-    };
+  const body = {
+    url: "https://www.google.com",
+    duration: 60,
+  };
 
-    const res = http.put(`${baseuURL}/shorten`, JSON.stringify(body), {
-        headers: { 'Content-Type': 'application/json' },
-    });
+  const res = http.put(`${__ENV.BASE_URL}/shorten`, JSON.stringify(body), {
+    headers: { "Content-Type": "application/json" },
+  });
 
-    check(res, {
-        'status is 201': (r) => r.status === 201,
-        'response body': (r) => {
-            const body = JSON.parse(r.body);
-            return body.url.length > 0 && body.key.length > 0;
-        },
-    });
+  check(res, {
+    "status is 201": (r) => r.status === 201,
+    "response body": (r) => {
+      const body = JSON.parse(r.body);
+      return (
+        body &&
+        body.url &&
+        body.key &&
+        body.url.length > 0 &&
+        body.key.length > 0
+      );
+    },
+  });
 }

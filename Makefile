@@ -7,6 +7,9 @@ shorten:
 geturl:
 	k6 run -e BASE_URL=${BASE_URL} test/load/get_url.js 
 
+full:
+	k6 run -e BASE_URL=${BASE_URL} test/load/full.js
+
 unittest:
 	go test -v ./test/unit/...
 

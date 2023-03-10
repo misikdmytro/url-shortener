@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/go-playground/assert/v2"
 	"github.com/misikdmytro/url-shortener/internal/database"
 	"github.com/misikdmytro/url-shortener/internal/helper"
 	"github.com/misikdmytro/url-shortener/internal/model"
 	"github.com/misikdmytro/url-shortener/internal/service"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 )

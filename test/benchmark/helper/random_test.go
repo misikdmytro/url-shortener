@@ -12,6 +12,6 @@ func BenchmarkNewKey(b *testing.B) {
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		g.NewKey(16)
+		g.NewKey(8)
 	}
 }

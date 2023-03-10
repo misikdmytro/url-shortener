@@ -11,7 +11,7 @@ import (
 )
 
 func TestGetURL(t *testing.T) {
-	c := NewClient(BaseAddr)
+	c := NewClient(BaseAddr())
 
 	shorten, err := c.ShortenURL(context.Background(), "https://google.com", 60*time.Second)
 	require.NoError(t, err)
@@ -23,7 +23,7 @@ func TestGetURL(t *testing.T) {
 }
 
 func TestGetURLNotFound(t *testing.T) {
-	c := NewClient(BaseAddr)
+	c := NewClient(BaseAddr())
 	key := uuid.NewString()
 
 	_, err := c.GetURL(context.Background(), key)

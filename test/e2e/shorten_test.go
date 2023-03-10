@@ -50,7 +50,7 @@ func TestShortenURLValidationURL(t *testing.T) {
 }
 
 func TestShortenURLValidationDuration(t *testing.T) {
-	input := []time.Duration{0 * time.Second, -1 * time.Second}
+	input := []time.Duration{0 * time.Second, -1 * time.Second, 604801 * time.Second}
 
 	c := NewClient(BaseAddr)
 	for _, tc := range input {
